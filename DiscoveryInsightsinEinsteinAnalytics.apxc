@@ -1,0 +1,140 @@
+@RestResource (urlMapping = '/DiscoveryInsights' )
+global class EAPlus
+{
+    @HttpPost
+    global static string DiscoveryInsights(String relatingTo, String storyID, string relatingToDimension, string insights, string changingTo)
+    {
+        List<Response> result = new  List<Response>();
+                
+        Http http = new  Http();
+        HttpRequest httpReq = new  HttpRequest();
+        HttpResponse httpRes = new  HttpResponse();
+        //change this to your org endpoint
+        httpReq.setEndpoint('https://domain.my.salesforce.com/services/data/v45.0/smartdatadiscovery/proxy');
+        httpReq.setMethod('POST');
+        httpReq.setHeader('Authorization', 'Bearer ' + UserInfo.getSessionId());
+        httpReq.setHeader('Content-Type', 'application/json');
+        string payload = '{"analysisId":"'+ StoryID +'","payload":{"url":"/v45.0/discovery/analyses/'+ storyID + '/related","body":{"metadata":{"type":"' + insights + '","properties":[{"type":"String","field":"'+ relatingToDimension +'","value":"' + relatingTo + '"}]}}}}';
+
+        if (insights == 'HOW_CAN_I_IMPROVE_IT')
+        {
+         payload = '{"analysisId":"'+ StoryID +'","payload":{"url":"/v45.0/discovery/analyses/'+ storyID + '/related","body":{"metadata":{"type":"' + insights + '","properties":[{"type":"String","field":"'+ relatingToDimension +'","value":"' + relatingTo + '"},{"type":"Field","field":"' + changingTo + '"}]}}}}';
+
+        }
+        httpReq.setBody(payload);
+        httpRes = http.send(httpReq);
+
+        JSONParser parser = JSON.createParser(httpRes.getBody());
+        while (parser.nextToken() != null && (parser.getText() != 'chart'))
+        {
+            if((parser.getCurrentToken() == JSONToken.FIELD_NAME))
+            {
+                parser.skipChildren();
+            }
+        }
+        if (parser.getText() == 'chart')
+        {
+          string label;
+          double value;
+            if(parser.getCurrentToken() == null)
+            {
+                parser.nextToken();
+            }
+            while (parser.nextToken() != null)
+            {
+                if(parser.getCurrentToken() == System.JSONToken.FIELD_NAME)
+                {
+                    string text = parser.getText();
+                    if(parser.nextToken() != System.JSONToken.VALUE_NULL)
+                    {
+                        if(text == 'label')
+                        {
+                            label = parser.getText();
+                            parser.nextToken();
+                            string next_text = parser.getText();
+                            if(next_text == 'value')
+                            {
+                                parser.nextToken();
+                                if(isNumeric(parser.getText()))
+                                {
+                                    value = parser.getDoubleValue();
+                                }
+                            }
+                        }
+                    }
+                    
+                }
+                if(string.isNotBlank(label))
+                {
+                    result.add(new  Response(label, value, 0));
+                    label = '';
+                }
+            }    
+            }
+            
+        return JSON.serialize(new  EAResponse(result));
+    }
+  
+    
+    public class Response
+    {
+        public string label
+        {
+            get;set;
+        }
+        public double value
+        {
+            get;set;
+        }
+       public double value_1
+        {
+            get;set;
+        }
+        public Response(string label, double value,double value_1 )
+        {
+            this.label = label;
+            this.value = value;
+            this.value_1 = value_1;
+        }
+       
+    }
+    public class EAResponseMetadata
+    {
+        public List<string> strings;
+        public List<string> numbers;
+        public List<string> groups;
+        public EAResponseMetadata(List<string> strings, List<string> numbers, List<string> groups)
+        {
+            this.strings = strings;
+            this.numbers = numbers;
+            this.groups = groups;
+        }
+    }
+    public class EAResponse
+    {
+        public List<Response> data;
+        public EAResponseMetadata metadata;
+        public EAResponse(List<Response> data)
+        {
+            this.data = data;
+            this.metadata = new  EAResponseMetadata(new List<string>{'label'}, new List<string>{'value'}, new  List<string>());
+        }
+    }
+    public static Boolean isNumeric(string s)
+    {
+        Boolean ReturnValue;
+        try
+        {
+            decimal.valueOf(s);
+            ReturnValue = true;
+        }
+        catch(Exception e)
+        {
+            ReturnValue = false;
+        }
+        return ReturnValue;
+    }
+}
+
+
+
