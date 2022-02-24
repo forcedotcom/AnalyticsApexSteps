@@ -1,0 +1,272 @@
+{
+    "label": "Workday Reports as a Service",
+    "mobileDisabled": false,
+    "state": {
+        "dataSourceLinks": [],
+        "filters": [],
+        "gridLayouts": [{
+            "name": "Default",
+            "numColumns": 12,
+            "pages": [{
+                "label": "Page1",
+                "name": "017bd620-42b8-4505-b316-35ef4f9a0b7a",
+                "navigationHidden": false,
+                "widgets": [{
+                        "colspan": 12,
+                        "column": 0,
+                        "name": "chart_1",
+                        "row": 3,
+                        "rowspan": 7,
+                        "widgetStyle": {
+                            "backgroundColor": "#091A3E",
+                            "borderColor": "#E6ECF2",
+                            "borderEdges": [],
+                            "borderRadius": 0,
+                            "borderWidth": 1
+                        }
+                    },
+                    {
+                        "colspan": 12,
+                        "column": 0,
+                        "name": "table_1",
+                        "row": 10,
+                        "rowspan": 10,
+                        "widgetStyle": {
+                            "borderEdges": []
+                        }
+                    },
+                    {
+                        "colspan": 12,
+                        "column": 0,
+                        "name": "number_1",
+                        "row": 2,
+                        "rowspan": 1,
+                        "widgetStyle": {
+                            "borderEdges": []
+                        }
+                    },
+                    {
+                        "colspan": 12,
+                        "column": 0,
+                        "name": "text_1",
+                        "row": 0,
+                        "rowspan": 2,
+                        "widgetStyle": {
+                            "borderEdges": []
+                        }
+                    }
+                ]
+            }],
+            "rowHeight": "normal",
+            "selectors": [],
+            "style": {
+                "alignmentX": "left",
+                "alignmentY": "top",
+                "backgroundColor": "#F2F6FA",
+                "cellSpacingX": 8,
+                "cellSpacingY": 8,
+                "fit": "original",
+                "gutterColor": "#C5D3E0"
+            },
+            "version": 1
+        }],
+        "layouts": [],
+        "steps": {
+            "wdStep": {
+                "label": "Apex query from Workday Controller",
+                "query": {
+                    "body": {},
+                    "path": "wdraas"
+                },
+                "selectMode": "single",
+                "type": "apex"
+            }
+        },
+        "widgetStyle": {
+            "backgroundColor": "#FFFFFF",
+            "borderColor": "#E6ECF2",
+            "borderEdges": [],
+            "borderRadius": 0,
+            "borderWidth": 1
+        },
+        "widgets": {
+            "table_1": {
+                "parameters": {
+                    "borderColor": "#a8b7c7",
+                    "borderWidth": 1,
+                    "cell": {
+                        "backgroundColor": "#ffffff",
+                        "fontColor": "#16325c",
+                        "fontSize": 12
+                    },
+                    "columnProperties": {},
+                    "columns": [],
+                    "customBulkActions": [],
+                    "exploreLink": false,
+                    "header": {
+                        "backgroundColor": "#16325c",
+                        "fontColor": "#ffffff",
+                        "fontSize": 12
+                    },
+                    "innerMajorBorderColor": "#54698d",
+                    "innerMinorBorderColor": "#a8b7c7",
+                    "mode": "fittocontainer",
+                    "numberOfLines": 1,
+                    "pivoted": false,
+                    "showActionMenu": true,
+                    "step": "wdStep",
+                    "totals": true,
+                    "verticalPadding": 8,
+                    "evenRowColor": null,
+                    "oddRowColor": null
+                },
+                "type": "table"
+            },
+            "number_1": {
+                "parameters": {
+                    "compact": true,
+                    "exploreLink": true,
+                    "measureField": "Count",
+                    "numberColor": "#335779",
+                    "numberSize": 32,
+                    "showActionMenu": true,
+                    "step": "wdStep",
+                    "textAlignment": "right",
+                    "title": "Count",
+                    "titleColor": "#335779",
+                    "titleSize": 16
+                },
+                "type": "number"
+            },
+            "text_1": {
+                "parameters": {
+                    "fontSize": 10,
+                    "showActionMenu": true,
+                    "text": "To enable, email David Katz at Salesforce (Workday Admin) and ask him to setup this sample report mentioned below.\n\n14:19:19:349 NAMED_CREDENTIAL_REQUEST NamedCallout[Name=WorkdayRaaS_Named_Credential, Endpoint=https://wd2-impl-services1.workday.com/ccx/service/customreport2/salesforce9/sfdc_integration_user1/Einstein-Job-Catalog?format=json, Method=GET, External Credential Type=EXTERNAL, HTTP Header Authorization=Method: Basic - Authorization Credential Hash: -1661818728, Retry on 401=True]",
+                    "textAlignment": "center",
+                    "textColor": "#091A3E"
+                },
+                "type": "text"
+            },
+            "chart_1": {
+                "parameters": {
+                    "autoFitMode": "fit",
+                    "totalValue": "computeTotal",
+                    "showValues": true,
+                    "bins": {
+                        "breakpoints": {
+                            "high": 100,
+                            "low": 0
+                        },
+                        "bands": {
+                            "high": {
+                                "color": "#008000",
+                                "label": ""
+                            },
+                            "low": {
+                                "color": "#B22222",
+                                "label": ""
+                            },
+                            "medium": {
+                                "color": "#ffa500",
+                                "label": ""
+                            }
+                        }
+                    },
+                    "legend": {
+                        "descOrder": false,
+                        "showHeader": true,
+                        "show": true,
+                        "customSize": "auto",
+                        "position": "right-top",
+                        "inside": false
+                    },
+                    "axisMode": "multi",
+                    "tooltip": {
+                        "showBinLabel": true,
+                        "measures": [
+                            "Count"
+                        ],
+                        "showNullValues": true,
+                        "showPercentage": true,
+                        "showDimensions": true,
+                        "showMeasures": true,
+                        "customizeTooltip": true,
+                        "dimensions": [
+                            "Comp_Plan_Id",
+                            "Job_Code",
+                            "Is_Commission_Plan",
+                            "Is_Bonus_Plan",
+                            "Job_Profile"
+                        ]
+                    },
+                    "visualizationType": "hbar",
+                    "exploreLink": false,
+                    "title": {
+                        "fontSize": 14,
+                        "subtitleFontSize": 11,
+                        "label": "",
+                        "align": "center",
+                        "subtitleLabel": ""
+                    },
+                    "trellis": {
+                        "flipLabels": false,
+                        "showGridLines": true,
+                        "size": [
+                            100,
+                            100
+                        ],
+                        "enable": false,
+                        "type": "x",
+                        "chartsPerLine": 4
+                    },
+                    "binValues": false,
+                    "totalLabel": "",
+                    "showActionMenu": true,
+                    "measureAxis2": {
+                        "sqrtScale": false,
+                        "showTitle": true,
+                        "showAxis": true,
+                        "title": "",
+                        "customDomain": {
+                            "showDomain": false
+                        }
+                    },
+                    "measureAxis1": {
+                        "sqrtScale": false,
+                        "showTitle": true,
+                        "showAxis": true,
+                        "referenceLines": [{
+                            "color": "#2EC2BA",
+                            "label": "GOAL",
+                            "value": 2
+                        }],
+                        "title": "# of Rows per Record",
+                        "customDomain": {
+                            "showDomain": false
+                        }
+                    },
+                    "theme": "dark",
+                    "step": "wdStep",
+                    "dimensionAxis": {
+                        "showTitle": true,
+                        "customSize": "auto",
+                        "showAxis": true,
+                        "title": "Comp Plan",
+                        "icons": {
+                            "useIcons": false,
+                            "iconProps": {
+                                "fit": "cover",
+                                "column": "",
+                                "type": "round"
+                            }
+                        }
+                    },
+                    "applyConditionalFormatting": false
+                },
+                "type": "chart"
+            }
+        }
+    },
+    "datasets": []
+}

@@ -3,3 +3,4 @@
 .forceignore
 sfdx-project.json
 config
+code-workspace
